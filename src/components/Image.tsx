@@ -1,4 +1,3 @@
-import React, { Dispatch, SetStateAction } from 'react'
 import { useMyContext } from '../contextApi'
 
 interface ImageComponentProps{

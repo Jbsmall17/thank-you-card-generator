@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { useMyContext } from '../contextApi'
 
 export default function CardModal() {
