@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*{
+  margin: 0;
+  padding:0;
+  box-sizing: border-box;
+}
+
+body{
+  @apply w-[100vw] py-[25px] md:py-[50px] flex justify-center items-center
+}
+
+div#root{
+  @apply w-[90vw] md:w-[70vw] flex flex-col justify-center items-center
+}
+
+.zoomOut{
+  animation: zoomOut 1s ease-in-out 1 forwards;
+}
+
+@keyframes zoomOut {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.title{
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 1px solid black;
+  width: 22ch; 
+  animation: typing 2s steps(20), blink 0.75s step-end 2s;
+  animation-fill-mode:forwards;
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: 22ch; }
+}
+
+
+@keyframes blink {
+  from { border-color: black; }
+  to { border-color: transparent;}
+}
+
+
+.sub-title{
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 0px solid black;
+  width: 0; 
+  animation: typing1 2s steps(20) 2s, blink1 0.75s step-end 4s;
+  animation-fill-mode:forwards;
+}
+
+@keyframes typing1 {
+  from { width: 0; border-right: 1px solid black; }
+  to { width: 28ch;border-right: 1px solid black;  }
+}
+
+
+@keyframes blink1 {
+  from { border-color: black; }
+  to { border-color: transparent;}
+}
+
+
