@@ -1,8 +1,6 @@
-import { useEffect, useRef } from 'react'
 import { useMyContext } from '../contextApi'
 
 export default function CardModal() {
-    const canvasRef = useRef<HTMLCanvasElement>(null)
     const {recipientName,imageUrl, setIsCardVisible, setRecipientName} = useMyContext()
 
     function handleClick(){
@@ -51,41 +49,43 @@ export default function CardModal() {
         }
     }
 
-
-    useEffect(()=>{
-        const canvas = canvasRef.current
-        if(canvas && imageUrl){
-          const canvasDraw = canvas.getContext('2d')
-          const image = new Image();
-          image.crossOrigin = 'anonymous'
-
-          image.onload = function(){
-            canvasDraw?.clearRect(0,0,canvas.width,canvas.height)
-            canvasDraw?.drawImage(image, 0,0,canvas.width,canvas.height)
-            canvasDraw!.font = 'Bold 14px Arial';
-            canvasDraw!.fillStyle = 'white';
-            canvasDraw!.textAlign = 'center';
-            canvasDraw!.fillText('THANK YOU', canvas.width / 2, 15);
-            canvasDraw!.font = 'Bold 14px Arial';
-            canvasDraw!.fillText(recipientName.toLocaleUpperCase(), canvas.width / 2, canvas.height - 5);
+    function closeCardModal(e: React.MouseEvent){
+        const targetElement = e.target as HTMLDivElement
+        if(targetElement.id === "card-modal-bg"){
+            setIsCardVisible(false)
+            setRecipientName("")
         }
-       
-        image.src = imageUrl
-        }
-    },[recipientName,imageUrl])
+      } 
+
+
   return (
-    <div 
-        className='fixed top-0  left-0 min-h-[100vh] w-[100vw] opacity-80 bg-black flex flex-col gap-4 justify-center items-center'>
+    <div
+        id='card-modal-bg' 
+        className='fixed top-0  left-0 min-h-[100vh] w-[100vw] bg-black flex flex-col gap-4 justify-center items-center'
+        onClick={closeCardModal}
+    >
+        
         <span 
         onClick={handleClick}
         className='absolute top-[5%] right-[5%] text-white text-3xl cursor-pointer hover:text-red'
-      >
+        >
         x
       </span>
-        <canvas
+        {/* <canvas
             style={{aspectRatio: "4/5"}}
             ref={canvasRef} className='zoomOut w-[65vw] md:w-[50vh]  lg:w-[30vw] rounded-lg' 
-        />
+        /> */}
+        <div
+            className='relative zoomOut w-[65vw] md:w-[50vh]  lg:w-[30vw] rounded-lg'
+        >
+            <p className='absolute font-bold top-[2%] left-[50%] text-white -translate-x-[50%]  text-base md:text-2xl'>THANK YOU</p>
+            <img 
+                src={imageUrl} 
+                style={{aspectRatio: "4/5"}}  
+                className='block rounded-lg'
+            />
+            <p className='absolute font-bold bottom-[2%] left-[50%] text-white -translate-x-[50%] text-base md:text-2xl'>{recipientName.toLocaleUpperCase()}</p>
+        </div>
         <button
             className='transition duration-500 ease-in-out hover:bg-blue-900 cursor-pointer p-2 text-white rounded-lg bg-blue-700'
             onClick={downloadCard}

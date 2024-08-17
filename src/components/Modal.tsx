@@ -1,11 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useMyContext } from '../contextApi'
-
 
 
 export default function Modal() {
   // const [recipientName, setRecipientName] = useState("")
-  const {recipientName, setRecipientName, setIsModalVisible, setIsCardVisible} = useMyContext()
+  const {recipientName, setRecipientName, setIsModalVisible, isModalVisible ,setIsCardVisible} = useMyContext()
   
   function generateCard(){
     if(!recipientName) return
@@ -18,10 +17,35 @@ export default function Modal() {
     setRecipientName(name)
   }
 
+  function handleClick2(){
+    setIsModalVisible(false)
+  }
+
+  function handleKeyDown(e : KeyboardEvent){
+    if(e.key === "Enter" && isModalVisible && recipientName){
+      generateCard()
+    }
+  }
+
+  function closeModal(e: React.MouseEvent){
+    const targetElement = e.target as HTMLDivElement
+    if(targetElement.id === "modal-bg"){
+      setIsModalVisible(false)
+    }
+  } 
+
+  useEffect(()=>{
+    window.addEventListener("keydown",handleKeyDown)
+
+    return ()=>{
+      window.removeEventListener("keydown", handleKeyDown)
+    }
+  },[isModalVisible,recipientName])
+
   return (
-    <div className='fixed top-0 left-0 w-[100vw] h-[100vh] bg-black opacity-85 flex justify-center items-center'>
+    <div onClick={closeModal} id='modal-bg' className='fixed top-0 left-0 w-[100vw] h-[100vh] bg-black flex justify-center items-center'>
       <span 
-        onClick={()=>setIsModalVisible(false)}
+        onClick={handleClick2}
         className='absolute top-[5%] right-[5%] text-white text-3xl cursor-pointer'
       >
         x
@@ -30,7 +54,7 @@ export default function Modal() {
         <div className='flex flex-col justify-center gap-4 w-[100%]'>
           <label className='text-2xl text-black'>Your name</label>
           <input 
-            className='p-2 border-2 border-black rounded-lg text-base'
+            className='transition duration-500 ease-in-out p-2 border-2 border-black rounded-lg text-base outline-none focus:border-blue-700'
             type='text' 
             value={recipientName}
             name="recipientName"
