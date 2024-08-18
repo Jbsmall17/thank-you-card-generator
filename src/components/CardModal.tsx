@@ -67,14 +67,10 @@ export default function CardModal() {
         
         <span 
         onClick={handleClick}
-        className='absolute top-[5%] right-[5%] text-white text-3xl cursor-pointer hover:text-red'
+        className='absolute top-[3%] right-[3%] text-white text-3xl cursor-pointer hover:text-red'
         >
         x
       </span>
-        {/* <canvas
-            style={{aspectRatio: "4/5"}}
-            ref={canvasRef} className='zoomOut w-[65vw] md:w-[50vh]  lg:w-[30vw] rounded-lg' 
-        /> */}
         <div
             className='relative zoomOut w-[65vw] md:w-[50vh]  lg:w-[30vw] rounded-lg'
         >
